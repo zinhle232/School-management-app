@@ -1,0 +1,147 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EduConnect School</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,sans-serif;background:#f3f6fb;color:#243047}
+header{background:#172e59;color:white;padding:24px 18px}
+header h1{margin:0;font-size:25px}
+header p{margin:8px 0 0;color:#d7e4ff}
+main{max-width:850px;margin:auto;padding:20px}
+.card{background:white;padding:20px;border-radius:14px;margin-bottom:16px;box-shadow:0 3px 12px #152b4d12}
+h2{font-size:20px;margin-top:0}
+label{display:block;margin:12px 0 6px;font-weight:bold}
+input,select,button{width:100%;padding:13px;border-radius:8px;border:1px solid #ccd5e2;font-size:16px}
+button{background:#2455a4;color:white;border:0;font-weight:bold;margin-top:12px;cursor:pointer}
+button.secondary{background:#e8effb;color:#244879}
+.stats{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+.stat{background:#edf3ff;padding:16px;border-radius:10px}
+.stat strong{display:block;font-size:25px;color:#2455a4;margin-top:8px}
+.item{padding:12px 0;border-bottom:1px solid #e6eaf0}
+.hidden{display:none}
+.small{font-size:13px;color:#65738a}
+footer{text-align:center;padding:20px;color:#68768a}
+</style>
+</head>
+<body>
+
+<header>
+<h1>EduConnect</h1>
+<p>Connecting schools, teachers, learners and parents.</p>
+</header>
+
+<main>
+<section class="card" id="login">
+<h2>Welcome to EduConnect</h2>
+<p>Choose your account type to explore your school dashboard.</p>
+
+<label for="role">I am a:</label>
+<select id="role">
+<option value="parent">Parent</option>
+<option value="teacher">Teacher</option>
+<option value="learner">Learner</option>
+<option value="admin">School Administrator</option>
+</select>
+
+<label for="username">Your name</label>
+<input id="username" placeholder="Enter your name">
+
+<button onclick="login()">Enter Dashboard</button>
+<p class="small">Demo version: no password or real account is required yet.</p>
+</section>
+
+<section id="dashboard" class="hidden">
+<div class="card">
+<h2 id="welcome">Dashboard</h2>
+<p id="description"></p>
+<button class="secondary" onclick="logout()">Log out</button>
+</div>
+
+<div class="card">
+<h2>School Overview</h2>
+<div class="stats">
+<div class="stat">Attendance<strong>95%</strong></div>
+<div class="stat">Homework<strong>12</strong></div>
+<div class="stat">School notices<strong>3</strong></div>
+<div class="stat">Activities<strong>5</strong></div>
+</div>
+</div>
+
+<div class="card">
+<h2 id="featuresTitle">My School</h2>
+<div id="features"></div>
+</div>
+
+<div class="card">
+<h2>School Announcements</h2>
+<div class="item">📢 Welcome to our school platform!</div>
+<div class="item">📅 Check upcoming school activities.</div>
+<div class="item">📚 Remember to complete homework on time.</div>
+</div>
+
+<div class="card">
+<h2>Quick Actions</h2>
+<label for="message">Send a school message</label>
+<input id="message" placeholder="Write your message">
+<button onclick="sendMessage()">Send Message</button>
+<p id="messageStatus" class="small"></p>
+</div>
+</section>
+</main>
+
+<footer>EduConnect © 2026 | Learning and communication made easier.</footer>
+
+<script>
+function login(){
+ const name=document.getElementById('username').value.trim();
+ const role=document.getElementById('role').value;
+ if(!name){alert('Please enter your name.');return;}
+
+ const descriptions={
+ parent:'Follow your child’s school progress and activities.',
+ teacher:'Manage your classes and support your learners.',
+ learner:'View your homework and school activities.',
+ admin:'Oversee school information and communication.'
+ };
+
+ const features={
+ parent:['👧 Children’s academic progress','📅 Attendance records','📚 Homework to be completed','📝 Marks and reports','💬 Teacher communication'],
+ teacher:['👩‍🏫 Manage learners','📅 Record attendance','📚 Create homework','📝 Record learner marks','📋 Manage lesson plans'],
+ learner:['📚 My homework','📅 My attendance','📝 My marks','📖 Learning activities','📢 School announcements'],
+ admin:['🏫 School management','👩‍🏫 Teacher management','👨‍🎓 Learner management','📊 School reports','📢 Announcements']
+ };
+
+ document.getElementById('login').classList.add('hidden');
+ document.getElementById('dashboard').classList.remove('hidden');
+ document.getElementById('welcome').textContent='Welcome, '+name+'!';
+ document.getElementById('description').textContent=descriptions[role];
+
+ document.getElementById('featuresTitle').textContent=
+ role.charAt(0).toUpperCase()+role.slice(1)+' Dashboard';
+
+ document.getElementById('features').innerHTML=
+ features[role].map(x=>'<div class="item">'+x+'</div>').join('');
+}
+
+function logout(){
+ document.getElementById('dashboard').classList.add('hidden');
+ document.getElementById('login').classList.remove('hidden');
+ document.getElementById('username').value='';
+ document.getElementById('message').value='';
+}
+
+function sendMessage(){
+ const message=document.getElementById('message').value.trim();
+ if(!message){alert('Please write a message first.');return;}
+ document.getElementById('messageStatus').textContent=
+ 'Demo message prepared: '+message;
+ document.getElementById('message').value='';
+}
+</script>
+
+</body>
+</html>
